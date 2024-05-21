@@ -1,4 +1,5 @@
 import { forwardRef, useImperativeHandle, useRef } from "react";
+import { createPortal } from "react-dom"; // untuk memindahkan jsx kode ke dom lain
 
 const ResultModal = forwardRef(function ResultModal(
   { onReset, targetTime, timeLeft },
@@ -17,7 +18,7 @@ const ResultModal = forwardRef(function ResultModal(
   const formattedTime = (timeLeft / 1000).toFixed(2);
   const score = Math.round((1- timeLeft / (targetTime * 1000)) * 100);
 
-  return (
+  return createPortal(
     <dialog ref={dialog} className="result-modal">
       <h2>You {Lost ? "Lost" : "Won"}!</h2>
       {!Lost && <h3>Your Score: {score}%</h3>}
@@ -33,6 +34,7 @@ const ResultModal = forwardRef(function ResultModal(
         <button>Close</button>
       </form>
     </dialog>
+    ,document.getElementById("modal")
   );
 });
 
